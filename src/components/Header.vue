@@ -6,6 +6,7 @@ import {
     LinkOutlined,
     BellOutlined,
 } from "@ant-design/icons-vue";
+import emitter from '@/utils/eventbus'
 
 const props = defineProps({
     collapsed: {
@@ -18,6 +19,7 @@ const emits = defineEmits(["update:collapsed"]);
 
 const handleCollapse = () => {
     emits("update:collapsed", !props.collapsed);
+    emitter.emit('resizeChartEmit');
 };
 </script>
 

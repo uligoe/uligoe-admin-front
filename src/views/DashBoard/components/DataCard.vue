@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps } from "vue";
+import { defineProps, onMounted, ref } from "vue";
 
 const props = defineProps({
     number: {
@@ -15,12 +15,28 @@ const props = defineProps({
         default: "blue",
     },
 });
+
+const count = ref(props.number - 150 > 0 ? props.number - 150 : 0);
+
+const slowltCountNumber = (number) => {
+    const timer = setInterval(() => {
+        count.value += 1;
+        if (count.value >= number) {
+            clearInterval(timer);
+        }
+    }, 5);
+    return count;
+};
+
+onMounted(() => {
+    slowltCountNumber(props.number);
+})
 </script>
 
 <template>
     <div class="data-card" :class="props.color">
         <h1 class="title">{{ props.title }}</h1>
-        <h1 class="number">{{ props.number }}</h1>
+        <h1 class="number">{{ count }}</h1>
         <div class="icon-slot"><slot class="icon"></slot></div>
     </div>
 </template>
