@@ -1,13 +1,16 @@
 <script setup>
-
+import GlobalLayout from './layout/GlobalLayout.vue';
 </script>
 
 <template>
-    <div>
-        <h1>Hello World</h1>
-        <p>This is a simple example of a Vue.js component.</p>
-    </div>
+    <GlobalLayout></GlobalLayout>
 </template>
 
-<style>
+<style lang="less" scoped>
+.super{
+    border: 1px solid green;
+    .sub{
+        border: 1px solid red;
+    }
+}
 </style>
