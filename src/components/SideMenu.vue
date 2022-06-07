@@ -62,7 +62,7 @@ watch(selectedKeys, (keys) => {
                     </span>
                 </template>
                 <a-menu-item key="/2">所有文章</a-menu-item>
-                <a-menu-item key="/3">写文章</a-menu-item>
+                <a-menu-item key="/write">写文章</a-menu-item>
                 <a-menu-item key="/4">分类目录</a-menu-item>
                 <a-menu-item key="/5">标签</a-menu-item>
             </a-sub-menu>

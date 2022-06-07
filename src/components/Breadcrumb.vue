@@ -1,18 +1,17 @@
 <script setup>
 import {ref, onMounted, watch} from 'vue'
-import {useRoute, useRouter} from 'vue-router'
+import {useRoute} from 'vue-router'
 
-const router = useRouter()
 const route = useRoute()
 
 const routeList = ref([])
 
 onMounted(() => {
-    routeList.value = route.matched.map(item => item.meta.title)
+    routeList.value = route.meta.breadcrumb
 })
 
 watch(() => route.path, () => {
-    routeList.value = route.matched.map(item => item.meta.title)
+    routeList.value = route.meta.breadcrumb
 })
 
 </script>
