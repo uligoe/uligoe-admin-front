@@ -1,74 +1,12 @@
 <script setup>
 import DataCard from "./components/DataCard.vue";
+import LineChart from "./components/LineChart.vue";
+import Comment from "./components/Comment.vue";
 import {
     PlusOutlined,
     UnorderedListOutlined,
     InfoCircleOutlined,
 } from "@ant-design/icons-vue";
-import { onMounted, ref } from "vue";
-import { createLineChart } from "./echart";
-import { _debounce } from "@/utils/common";
-import * as echarts from 'echarts'
-import emitter from '@/utils/eventbus'
-const visitCountList = ref([
-    {
-        date: "05-31",
-        count: "120",
-    },
-    {
-        date: "06-01",
-        count: "132",
-    },
-    {
-        date: "06-02",
-        count: "101",
-    },
-    {
-        date: "06-03",
-        count: "134",
-    },
-    {
-        date: "06-04",
-        count: "90",
-    },
-    {
-        date: "06-05",
-        count: "230",
-    },
-    {
-        date: "06-06",
-        count: "210",
-    },
-]);
-
-const data = ref([
-    {
-        title: "Comment Title 1",
-        description: "Comment Description 1",
-    },
-    {
-        title: "Comment Title 1",
-        description: "Comment Description 1",
-    },
-    {
-        title: "Comment Title 2",
-        description: "Comment Description 1",
-    },
-]);
-
-const resizeChart = () => {
-    _debounce(() => {
-        echarts.init(document.getElementById("chart-content")).resize();
-    }, 300)();
-};
-
-onMounted(() => {
-    createLineChart("chart-content", visitCountList.value);
-    emitter.on('resizeChartEmit', resizeChart);
-    window.addEventListener("resize", () => {
-      resizeChart()
-    });
-});
 </script>
 
 <template>
@@ -141,48 +79,14 @@ onMounted(() => {
         <a-col :span="12">
             <div class="chart panel">
                 <h1 class="title">每日访问量</h1>
-                <div class="content" id="chart-content" :ref="chartDom"></div>
+                <div class="content"><LineChart></LineChart></div>
             </div>
         </a-col>
         <a-col :span="11">
             <div class="news panel">
                 <h1 class="title">最新评论</h1>
                 <div class="content">
-                    <a-tabs
-                        v-model:activeKey="activeKey"
-                        style="margin-top: -24px"
-                    >
-                        <a-tab-pane key="1" tab="文章评论"
-                            ><a-list
-                                item-layout="horizontal"
-                                :data-source="data"
-                            >
-                                <template #renderItem="{ item }">
-                                    <a-list-item>
-                                        <a-list-item-meta
-                                            :description="item.description"
-                                        >
-                                            <template #title>
-                                                <a
-                                                    href="https://www.antdv.com/"
-                                                    >{{ item.title }}</a
-                                                >
-                                            </template>
-                                            <template #avatar>
-                                                <a-avatar
-                                                    src="https://joeschmoe.io/api/v1/random"
-                                                />
-                                            </template>
-                                        </a-list-item-meta>
-                                    </a-list-item>
-                                </template> </a-list
-                        ></a-tab-pane>
-                        <a-tab-pane
-                            key="2"
-                            tab="站点评论"
-                            force-render
-                        ></a-tab-pane>
-                    </a-tabs>
+                    <Comment></Comment>
                 </div>
             </div>
         </a-col>
