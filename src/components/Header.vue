@@ -61,7 +61,7 @@ const handleCollapse = () => {
                             <router-link to="/7">个人资料</router-link>
                         </a-menu-item>
                         <a-menu-item>
-                            <a href="javascript:;">注销</a>
+                            <router-link to="/login">注销</router-link>
                         </a-menu-item>
                     </a-menu>
                 </template>

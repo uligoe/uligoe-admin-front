@@ -34,6 +34,14 @@ const router = createRouter({
       },
     },
     {
+      path: '/login',
+      name: 'login',
+      component: defineAsyncComponent(() => import(`../views/User/Login.vue`)),
+      meta: {
+        title: '登录',
+      }
+    },
+    {
       path: '/',
       redirect: '/dashboard',
     },
