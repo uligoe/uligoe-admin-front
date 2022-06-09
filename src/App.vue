@@ -1,7 +1,6 @@
 <script setup>
 import GlobalLayout from './layout/GlobalLayout.vue';
 import {useRoute} from 'vue-router'
-import { onMounted } from '@vue/runtime-core';
 
 const route = useRoute()
 </script>
@@ -12,10 +11,5 @@ const route = useRoute()
 </template>
 
 <style lang="less" scoped>
-.super{
-    border: 1px solid green;
-    .sub{
-        border: 1px solid red;
-    }
-}
+
 </style>

@@ -9,7 +9,10 @@ const collapsed = ref(false); // 初始化折叠状态
 <template>
     <a-layout style="min-height: 100vh">
         <a-layout-sider v-model:collapsed="collapsed" width="240">
-            <SideMenu :collapsed="collapsed" style="overflow: auto; height: 100vh"></SideMenu>
+            <SideMenu
+                :collapsed="collapsed"
+                style="overflow: auto; height: 100vh"
+            ></SideMenu>
         </a-layout-sider>
         <a-layout style="overflow: auto; height: 100vh">
             <a-layout-header style="background: #fff; padding: 0">
@@ -20,15 +23,16 @@ const collapsed = ref(false); // 初始化折叠状态
                 <div
                     :style="{
                         padding: '0',
-                        minHeight: '360px',
+                        minHeight: 'calc(100vh - 200px)',
                     }"
                 >
                     <router-view></router-view>
                 </div>
-                <a-layout-footer style="text-align: center">
-                    Uligoe Blog ©2022 Created by bulv & Aminor-z
-                </a-layout-footer>
+                 <a-layout-footer style="text-align: center">
+                Uligoe Blog ©2022 Created by bulv & Aminor-z
+            </a-layout-footer>
             </a-layout-content>
+           
         </a-layout>
     </a-layout>
 </template>

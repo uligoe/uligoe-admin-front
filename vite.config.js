@@ -12,5 +12,4 @@ export default defineConfig({
       "@": resolve(__dirname, "src")// 在src文件下的相对路径都可以写成 @ 符号
     }
   },
-
 })

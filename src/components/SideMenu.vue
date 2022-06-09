@@ -5,6 +5,7 @@ import {
     MessageOutlined,
     UserOutlined,
     SettingOutlined,
+    PictureOutlined
 } from "@ant-design/icons-vue";
 import { ref, defineProps, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -61,14 +62,18 @@ watch(selectedKeys, (keys) => {
                         <span>文章</span>
                     </span>
                 </template>
-                <a-menu-item key="/2">所有文章</a-menu-item>
+                <a-menu-item key="/articles">所有文章</a-menu-item>
                 <a-menu-item key="/write">写文章</a-menu-item>
-                <a-menu-item key="/4">分类目录</a-menu-item>
-                <a-menu-item key="/5">标签</a-menu-item>
+                <a-menu-item key="/category">分类目录</a-menu-item>
+                <a-menu-item key="/tags">标签</a-menu-item>
             </a-sub-menu>
             <a-menu-item key="/6">
                 <message-outlined />
                 <span>评论</span>
+            </a-menu-item>
+            <a-menu-item key="/7">
+                <PictureOutlined />
+                <span>附件</span>
             </a-menu-item>
             <a-sub-menu key="sub2">
                 <template #title>
@@ -77,7 +82,7 @@ watch(selectedKeys, (keys) => {
                         <span>用户</span>
                     </span>
                 </template>
-                <a-menu-item key="/7">个人资料</a-menu-item>
+                <a-menu-item key="/8">个人资料</a-menu-item>
             </a-sub-menu>
             <a-sub-menu key="sub3">
                 <template #title>
@@ -86,7 +91,7 @@ watch(selectedKeys, (keys) => {
                         <span>系统</span>
                     </span>
                 </template>
-                <a-menu-item key="/8">博客设置</a-menu-item>
+                <a-menu-item key="/9">博客设置</a-menu-item>
                 <a-menu-item key="/about">关于</a-menu-item>
             </a-sub-menu>
         </a-menu>

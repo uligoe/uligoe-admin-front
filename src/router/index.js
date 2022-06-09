@@ -27,10 +27,37 @@ const router = createRouter({
     {
       path: '/write',
       name: 'write',
-      component: defineAsyncComponent(() => import(`../views/WritePage/WritePage.vue`)),
+      component: defineAsyncComponent(() => import(`../views/Article/WriteArticle.vue`)),
       meta: {
         title: '写文章',
         breadcrumb: ['文章', '写文章']
+      },
+    },
+    {
+      path: '/articles',
+      name: 'articles',
+      component: defineAsyncComponent(() => import(`../views/Article/AllArticles.vue`)),
+      meta: {
+        title: '所有文章',
+        breadcrumb: ['文章', '所有文章']
+      },
+    },
+    {
+      path: '/category',
+      name: 'category',
+      component: defineAsyncComponent(() => import(`../views/Article/Categories.vue`)),
+      meta: {
+        title: '分类目录',
+        breadcrumb: ['文章', '分类目录']
+      },
+    },
+    {
+      path: '/tags',
+      name: 'tags',
+      component: defineAsyncComponent(() => import(`../views/Article/Tags.vue`)),
+      meta: {
+        title: '所有文章',
+        breadcrumb: ['文章', '标签']
       },
     },
     {
