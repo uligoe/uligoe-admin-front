@@ -67,11 +67,11 @@ watch(selectedKeys, (keys) => {
                 <a-menu-item key="/category">分类目录</a-menu-item>
                 <a-menu-item key="/tags">标签</a-menu-item>
             </a-sub-menu>
-            <a-menu-item key="/6">
+            <a-menu-item key="/comment">
                 <message-outlined />
                 <span>评论</span>
             </a-menu-item>
-            <a-menu-item key="/7">
+            <a-menu-item key="/filelib">
                 <PictureOutlined />
                 <span>附件</span>
             </a-menu-item>
@@ -82,7 +82,7 @@ watch(selectedKeys, (keys) => {
                         <span>用户</span>
                     </span>
                 </template>
-                <a-menu-item key="/8">个人资料</a-menu-item>
+                <a-menu-item key="/personal">个人资料</a-menu-item>
             </a-sub-menu>
             <a-sub-menu key="sub3">
                 <template #title>
@@ -91,7 +91,7 @@ watch(selectedKeys, (keys) => {
                         <span>系统</span>
                     </span>
                 </template>
-                <a-menu-item key="/9">博客设置</a-menu-item>
+                <a-menu-item key="/set">博客设置</a-menu-item>
                 <a-menu-item key="/about">关于</a-menu-item>
             </a-sub-menu>
         </a-menu>

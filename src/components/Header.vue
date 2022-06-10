@@ -58,7 +58,7 @@ const handleCollapse = () => {
                 <template #overlay>
                     <a-menu>
                         <a-menu-item>
-                            <router-link to="/7">个人资料</router-link>
+                            <router-link to="/personal">个人资料</router-link>
                         </a-menu-item>
                         <a-menu-item>
                             <router-link to="/login">注销</router-link>

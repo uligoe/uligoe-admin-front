@@ -61,6 +61,42 @@ const router = createRouter({
       },
     },
     {
+      path: '/comment',
+      name: 'comment',
+      component: defineAsyncComponent(() => import(`../views/Comment/Comment.vue`)),
+      meta: {
+        title: '评论',
+        breadcrumb: ['评论']
+      },
+    },
+    {
+      path: '/filelib',
+      name: 'filelib',
+      component: defineAsyncComponent(() => import(`../views/FileLib/FileLib.vue`)),
+      meta: {
+        title: '附件',
+        breadcrumb: ['附件']
+      },
+    },
+    {
+      path: '/personal',
+      name: 'personal',
+      component: defineAsyncComponent(() => import(`../views/Personal/Personal.vue`)),
+      meta: {
+        title: '个人资料',
+        breadcrumb: ['用户', '个人资料']
+      },
+    },
+    {
+      path: '/set',
+      name: 'set',
+      component: defineAsyncComponent(() => import(`../views/BlogSet/BlogSet.vue`)),
+      meta: {
+        title: '系统',
+        breadcrumb: ['系统', '博客设置']
+      },
+    },
+    {
       path: '/login',
       name: 'login',
       component: defineAsyncComponent(() => import(`../views/User/Login.vue`)),
