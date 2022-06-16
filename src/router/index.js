@@ -9,7 +9,7 @@ const router = createRouter({
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: defineAsyncComponent(() => import(`../views/DashBoard/DashBoard.vue`)),
+      component: () => import(`../views/DashBoard/DashBoard.vue`),
       meta: {
         title: '仪表盘',
         breadcrumb: ['仪表盘']
@@ -18,7 +18,7 @@ const router = createRouter({
     {
       path: '/about',
       name: 'about',
-      component: defineAsyncComponent(() => import(`../views/About/About.vue`)),
+      component: () => import(`../views/About/About.vue`),
       meta: {
         title: '关于',
         breadcrumb: ['设置', '关于']
@@ -27,7 +27,7 @@ const router = createRouter({
     {
       path: '/write',
       name: 'write',
-      component: defineAsyncComponent(() => import(`../views/Article/WriteArticle.vue`)),
+      component: () => import(`../views/Article/WriteArticle.vue`),
       meta: {
         title: '写文章',
         breadcrumb: ['文章', '写文章']
@@ -36,7 +36,7 @@ const router = createRouter({
     {
       path: '/articles',
       name: 'articles',
-      component: defineAsyncComponent(() => import(`../views/Article/AllArticles.vue`)),
+      component: () => import(`../views/Article/AllArticles.vue`),
       meta: {
         title: '所有文章',
         breadcrumb: ['文章', '所有文章']
@@ -45,7 +45,7 @@ const router = createRouter({
     {
       path: '/category',
       name: 'category',
-      component: defineAsyncComponent(() => import(`../views/Article/Categories.vue`)),
+      component: () => import(`../views/Article/Categories.vue`),
       meta: {
         title: '分类目录',
         breadcrumb: ['文章', '分类目录']
@@ -54,7 +54,7 @@ const router = createRouter({
     {
       path: '/tags',
       name: 'tags',
-      component: defineAsyncComponent(() => import(`../views/Article/Tags.vue`)),
+      component: () => import(`../views/Article/Tags.vue`),
       meta: {
         title: '所有文章',
         breadcrumb: ['文章', '标签']
@@ -63,7 +63,7 @@ const router = createRouter({
     {
       path: '/comment',
       name: 'comment',
-      component: defineAsyncComponent(() => import(`../views/Comment/Comment.vue`)),
+      component: () => import(`../views/Comment/Comment.vue`),
       meta: {
         title: '评论',
         breadcrumb: ['评论']
@@ -72,7 +72,7 @@ const router = createRouter({
     {
       path: '/filelib',
       name: 'filelib',
-      component: defineAsyncComponent(() => import(`../views/FileLib/FileLib.vue`)),
+      component: () => import(`../views/FileLib/FileLib.vue`),
       meta: {
         title: '附件',
         breadcrumb: ['附件']
@@ -81,7 +81,7 @@ const router = createRouter({
     {
       path: '/personal',
       name: 'personal',
-      component: defineAsyncComponent(() => import(`../views/Personal/Personal.vue`)),
+      component: () => import(`../views/Personal/Personal.vue`),
       meta: {
         title: '个人资料',
         breadcrumb: ['用户', '个人资料']
@@ -90,7 +90,7 @@ const router = createRouter({
     {
       path: '/set',
       name: 'set',
-      component: defineAsyncComponent(() => import(`../views/BlogSet/BlogSet.vue`)),
+      component: () => import(`../views/BlogSet/BlogSet.vue`),
       meta: {
         title: '系统',
         breadcrumb: ['系统', '博客设置']
@@ -99,7 +99,7 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: defineAsyncComponent(() => import(`../views/User/Login.vue`)),
+      component: () => import(`../views/User/Login.vue`),
       meta: {
         title: '登录',
       }

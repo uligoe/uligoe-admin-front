@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from "vue";
 
+const activeKey = ref('1')
+
 const data = ref([
     {
         title: "Comment Title 1",

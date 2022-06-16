@@ -62,10 +62,8 @@ const createLineChart = (dom, data) => {
         series: [
             {
                 itemStyle: {
-                    normal: {
-                        lineStyle: {
-                            color: "#409EFF80",
-                        },
+                    lineStyle: {
+                        color: "#409EFF80",
                     },
                 },
 

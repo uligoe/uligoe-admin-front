@@ -29,7 +29,7 @@ const collapsed = ref(false); // 初始化折叠状态
                     <router-view></router-view>
                 </div>
                  <a-layout-footer style="text-align: center">
-                Uligoe Blog ©2022 Created by bulv & Aminor-z
+                Uligoe Blog ©2022 Created by bulv
             </a-layout-footer>
             </a-layout-content>
            

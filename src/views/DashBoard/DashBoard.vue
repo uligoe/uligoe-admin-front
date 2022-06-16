@@ -33,7 +33,7 @@ import {
                     class="data-card"
                 >
                     <a-popover>
-                        <router-link to="/6">
+                        <router-link to="/comment">
                             <unordered-list-outlined
                                 class="cursor-pointer"
                                 :style="{ color: '#1890ff' }"
