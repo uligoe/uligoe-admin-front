@@ -7,7 +7,7 @@ import {
     SettingOutlined,
     PictureOutlined
 } from "@ant-design/icons-vue";
-import { ref, defineProps, onMounted, watch } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 const props = defineProps({
     collapsed: {
@@ -41,16 +41,11 @@ watch(selectedKeys, (keys) => {
 </script>
 
 <template>
-    <div class="side-menu"  >
+    <div class="side-menu">
         <div class="logo">
             <h1 :class="{ active: props.collapsed }">Uligoe</h1>
         </div>
-        <a-menu
-            class="menu"
-            v-model:selectedKeys="selectedKeys"
-            theme="dark"
-            mode="inline"
-        >
+        <a-menu class="menu" v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
             <a-menu-item key="/dashboard">
                 <pie-chart-outlined />
                 <span>仪表盘</span>
@@ -91,7 +86,7 @@ watch(selectedKeys, (keys) => {
                         <span>系统</span>
                     </span>
                 </template>
-                <a-menu-item key="/set">博客设置</a-menu-item>
+                <!-- <a-menu-item key="/set">博客设置</a-menu-item> -->
                 <a-menu-item key="/about">关于</a-menu-item>
             </a-sub-menu>
         </a-menu>
@@ -106,6 +101,7 @@ watch(selectedKeys, (keys) => {
 
         h1 {
             background: linear-gradient(to right, #1e75c5, #c2c6ca);
+            background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
             font-size: 24px;
@@ -117,6 +113,7 @@ watch(selectedKeys, (keys) => {
             &:hover {
                 cursor: pointer;
                 background: linear-gradient(to right, #3f89ce, #fafafa);
+                background-clip: text;
                 -webkit-background-clip: text;
                 color: transparent;
             }

@@ -1,6 +1,7 @@
 <script setup>
 import { UploadOutlined, InboxOutlined } from '@ant-design/icons-vue';
 import { ref } from 'vue';
+import {message} from 'ant-design-vue'
 
 const visible = ref(false);
 
@@ -8,6 +9,8 @@ const handleOk = e => {
   console.log(e);
   visible.value = false;
 };
+
+const fileList = ref([]);
 
 const handleDrop = (e) => {
   console.log(e);
@@ -43,7 +46,7 @@ const handleChange = (info) => {
           <a-button key="submit" type="primary" @click="handleOk">导入</a-button>
         </template>
         <a-upload-dragger v-model:fileList="fileList" name="file" :multiple="true"
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76" @change="handleChange" @drop="handleDrop">
+          action="http://localhost:3001/api/file/upload" @change="handleChange" @drop="handleDrop">
           <p class="ant-upload-drag-icon">
             <inbox-outlined></inbox-outlined>
           </p>

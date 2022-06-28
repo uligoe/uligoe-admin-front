@@ -1,6 +1,6 @@
 <script setup>
 import GlobalLayout from './layout/GlobalLayout.vue';
-import {useRoute} from 'vue-router'
+import { useRoute } from 'vue-router'
 
 const route = useRoute()
 </script>
@@ -11,5 +11,4 @@ const route = useRoute()
 </template>
 
 <style lang="less" scoped>
-
 </style>

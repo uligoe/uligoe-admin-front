@@ -3,7 +3,8 @@ import App from './App.vue'
 import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 import router from './router'
-import 'nprogress/nprogress.css'  // 这个nprogress样式必须引入
+import 'nprogress/nprogress.css'
+
 
 import Vue3ColorPicker from "vue3-colorpicker";
 import "vue3-colorpicker/style.css";
