@@ -1,39 +1,16 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, toRefs } from "vue";
 import { _debounce } from "@/utils/common";
 import * as echarts from "echarts";
 import emitter from "@/utils/eventbus";
 
-const visitCountList = ref([
-    {
-        date: "05-31",
-        count: "120",
-    },
-    {
-        date: "06-01",
-        count: "132",
-    },
-    {
-        date: "06-02",
-        count: "101",
-    },
-    {
-        date: "06-03",
-        count: "134",
-    },
-    {
-        date: "06-04",
-        count: "90",
-    },
-    {
-        date: "06-05",
-        count: "230",
-    },
-    {
-        date: "06-06",
-        count: "210",
-    },
-]);
+// 每日访问量列表
+const props = defineProps({
+    visitCountList: {
+        type: Array,
+        default: []
+    }
+})
 
 const createLineChart = (dom, data) => {
     let chartDom = document.getElementById(dom);
@@ -91,7 +68,7 @@ const resizeChart = () => {
 };
 
 onMounted(() => {
-    createLineChart("chart-content", visitCountList.value);
+    createLineChart("chart-content", props.visitCountList);
     emitter.on("resizeChartEmit", resizeChart);
     window.addEventListener("resize", () => {
         resizeChart();

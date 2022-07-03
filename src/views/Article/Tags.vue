@@ -86,62 +86,42 @@ const onAddNewTagClick = () => {
         <a-row justify="space-around">
             <a-col :span="10">
                 <div class="tags-form">
-                    <a-card
-                        :title="status === 'add' ? '添加标签' : '修改标签'"
-                        :bordered="false"
-                    >
-                        <a-form
-                            :model="formState"
-                            name="basic"
-                            @finish="onFinish"
-                            @finishFailed="onFinishFailed"
-                        >
-                            <a-form-item
-                                label="标签名称"
-                                name="title"
-                                :rules="[
-                                    {
-                                        required: true,
-                                        message: '请填写标签的名称',
-                                    },
-                                ]"
-                            >
+                    <a-card :title="status === 'add' ? '添加标签' : '修改标签'" :bordered="false">
+                        <a-form :model="formState" name="basic" @finish="onFinish" @finishFailed="onFinishFailed">
+                            <a-form-item label="标签名称" name="title" :rules="[
+                                {
+                                    required: true,
+                                    message: '请填写标签的名称',
+                                },
+                            ]">
                                 <a-input v-model:value="formState.title" />
                             </a-form-item>
 
-                            <a-form-item
-                                label="标签颜色"
-                                name="color"
-                                :rules="[
-                                    {
-                                        required: true,
-                                        message: '请选择标签的颜色',
-                                    },
-                                ]"
-                            >
+                            <a-form-item label="标签颜色" name="color" :rules="[
+                                {
+                                    required: true,
+                                    message: '请选择标签的颜色',
+                                },
+                            ]">
                                 <a-input v-model:value="formState.color">
                                     <template #addonAfter>
-                                        <ColorPicker
-                                            v-model:pureColor="formState.color"
-                                        ></ColorPicker>
+                                        <ColorPicker v-model:pureColor="formState.color"></ColorPicker>
                                     </template>
                                 </a-input>
                             </a-form-item>
 
                             <a-form-item>
                                 <a-button type="primary" html-type="submit">
-                                    <template #icon><UploadOutlined /></template
-                                    >上传</a-button
-                                >
-                                <a-button
-                                    v-if="status !== 'add'"
-                                    html-type="submit"
-                                    style="margin-left: 10px"
-                                    @click="onAddNewTagClick"
-                                >
-                                    <template #icon><PlusOutlined /></template
-                                    >新建标签</a-button
-                                >
+                                    <template #icon>
+                                        <UploadOutlined />
+                                    </template>上传
+                                </a-button>
+                                <a-button v-if="status !== 'add'" html-type="submit" style="margin-left: 10px"
+                                    @click="onAddNewTagClick">
+                                    <template #icon>
+                                        <PlusOutlined />
+                                    </template>新建标签
+                                </a-button>
                             </a-form-item>
                         </a-form>
                     </a-card>
@@ -150,13 +130,8 @@ const onAddNewTagClick = () => {
             <a-col :span="13">
                 <div class="tags-panel">
                     <a-card title="所有标签" :bordered="false">
-                        <a-tag
-                            v-for="tag in tags"
-                            :key="tag"
-                            :color="tag.color"
-                            @click="onTagClick(tag)"
-                            style="cursor: pointer"
-                        >
+                        <a-tag v-for="tag in tags" :key="tag" :color="tag.color" @click="onTagClick(tag)"
+                            style="cursor: pointer">
                             {{ tag.title }}
                         </a-tag>
                     </a-card>

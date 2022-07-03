@@ -27,7 +27,7 @@ const router = createRouter({
     {
       path: '/write',
       name: 'write',
-      component: () => import(`../views/Article/WriteArticle.vue`),
+      component: () => import(`../views/Article/WriteArticle/WriteArticle.vue`),
       meta: {
         title: '写文章',
         breadcrumb: ['文章', '写文章']
@@ -36,7 +36,7 @@ const router = createRouter({
     {
       path: '/articles',
       name: 'articles',
-      component: () => import(`../views/Article/AllArticles.vue`),
+      component: () => import(`../views/Article/AllArticles/AllArticles.vue`),
       meta: {
         title: '所有文章',
         breadcrumb: ['文章', '所有文章']
@@ -45,7 +45,7 @@ const router = createRouter({
     {
       path: '/category',
       name: 'category',
-      component: () => import(`../views/Article/Categories.vue`),
+      component: () => import(`../views/Article/Categories/Categories.vue`),
       meta: {
         title: '分类目录',
         breadcrumb: ['文章', '分类目录']
