@@ -16,7 +16,7 @@ const props = defineProps({
     },
 });
 
-const selectedKeys = ref(["1"]);
+const selectedKeys = ref(['/dashboard']);
 
 const route = useRoute();
 const router = useRouter();
@@ -45,7 +45,7 @@ watch(selectedKeys, (keys) => {
         <div class="logo">
             <h1 :class="{ active: props.collapsed }">Uligoe</h1>
         </div>
-        <a-menu class="menu" v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
+        <a-menu class="menu" v-model:selectedKeys="selectedKeys" theme="dark" mode="inline" >
             <a-menu-item key="/dashboard">
                 <pie-chart-outlined />
                 <span>仪表盘</span>

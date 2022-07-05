@@ -1,7 +1,8 @@
 <script setup>
 import { ref, reactive, toRefs } from "@vue/reactivity";
-import { PlusOutlined, UploadOutlined, FolderAddOutlined } from "@ant-design/icons-vue";
+import { PlusOutlined, UploadOutlined } from "@ant-design/icons-vue";
 import CategoryList from "./components/CategoryList.vue";
+import SelectFile from "../../../components/SelectFile.vue";
 
 const layout = {
     labelCol: { span: 3 },
@@ -35,7 +36,7 @@ const categoryFn = {
     onCategoryEditClick(category) {
         status.value = 'edit';
         title.value = category.title;
-        bgImg.value = category.title;
+        bgImg.value = category.bgImg;
         description.value = category.description;
     },
 
@@ -75,19 +76,15 @@ const categoryFn = {
                                     message: '请填写标签的名称',
                                 },
                             ]">
-                                <a-input v-model:value="title" />
+                                <a-input v-model:value="title" placeholder="请输入标签名称" />
                             </a-form-item>
 
                             <a-form-item label="封面" name="img" labelAlign="right">
-                                <a-input v-model:value="bgImg">
-                                    <template #addonAfter>
-                                        <FolderAddOutlined></FolderAddOutlined>
-                                    </template>
-                                </a-input>
+                                <SelectFile v-model:fileName="bgImg"></SelectFile>
                             </a-form-item>
 
                             <a-form-item label="描述" name="title" labelAlign="right">
-                                <a-textarea v-model:value="description" :rows="4" :maxlength="6" />
+                                <a-textarea v-model:value="description" :rows="4" />
                             </a-form-item>
 
                             <a-form-item>

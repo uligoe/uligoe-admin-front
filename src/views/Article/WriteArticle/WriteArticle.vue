@@ -2,6 +2,7 @@
 import MdEditor from "md-editor-v3";
 import "md-editor-v3/lib/style.css";
 import { message } from 'ant-design-vue';
+import SelectFile from "../../../components/SelectFile.vue";
 import { reactive, toRefs, ref } from "vue";
 import { useRouter } from "vue-router";
 const router = useRouter();
@@ -17,13 +18,14 @@ const uploadState = reactive({
     uploading: false,
     status: '公开',
     belongTo: '',
+    bgImg: '',
     selectedTag: [],
     layout: {
         labelCol: { span: 3 },
         wrapperCol: { span: 21 },
     }
 })
-const { visible, uploading, status, belongTo, selectedTag } = toRefs(uploadState);
+const { visible, uploading, status, belongTo, selectedTag, bgImg } = toRefs(uploadState);
 
 const uploadFn = {
     handleOk() {
@@ -70,7 +72,7 @@ const tagList = ref([
 ])
 
 const categoryList = ref([
-    {       
+    {
         id: 'xxxxx',
         title: '前端'
     }
@@ -110,20 +112,25 @@ const onUploadImg = async (files, callback) => {
         <a-form :model="uploadState" v-bind="uploadState.layout" name="upload-info" @finish="uploadFn.onFinish"
             @finishFailed="uploadFn.onFinishFailed" autocomplete="off">
             <a-form-item name="status" label="状态" :rules="[{ required: true, message: '请选择发布状态' }]">
-                <a-input v-model:value="status" />
+                <a-select ref="select" v-model:value="status">
+                    <a-select-option value="公开">公开</a-select-option>
+                    <a-select-option value="私密">私密</a-select-option>
+                </a-select>
+            </a-form-item>
+            <a-form-item name="bgImg" label="背景" :rules="[{ required: true, message: '请选择背景图' }]">
+                <SelectFile v-model:fileName="bgImg"></SelectFile>
             </a-form-item>
 
             <a-form-item name="belongTo" label="分类" :rules="[{ required: true, message: '请选择分类' }]">
-                <a-select ref="select" v-model:value="belongTo">
-                    <a-select-option :value="categoryItem.id" v-for="categoryItem in categoryList" :key="categoryItem.id">{{categoryItem.title}}</a-select-option>
+                <a-select ref="select" v-model:value="belongTo" placeholder="请选择分类">
+                    <a-select-option :value="categoryItem.id" v-for="categoryItem in categoryList"
+                        :key="categoryItem.id">{{ categoryItem.title }}</a-select-option>
                 </a-select>
             </a-form-item>
 
             <a-form-item name="tags" label="标签">
                 <!-- <a-input :value="props. /> -->
-                <a-select v-model:value="selectedTag" mode="multiple" placeholder="选择标签"
-                    :options="tagList"
-                    ></a-select>
+                <a-select v-model:value="selectedTag" mode="multiple" placeholder="选择标签" :options="tagList"></a-select>
             </a-form-item>
         </a-form>
     </a-modal>

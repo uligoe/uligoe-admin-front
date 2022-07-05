@@ -54,7 +54,7 @@ const router = createRouter({
     {
       path: '/tags',
       name: 'tags',
-      component: () => import(`../views/Article/Tags.vue`),
+      component: () => import(`../views/Article/Tags/Tags.vue`),
       meta: {
         title: '所有文章',
         breadcrumb: ['文章', '标签']
