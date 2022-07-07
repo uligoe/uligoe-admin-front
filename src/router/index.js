@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
-import { defineAsyncComponent } from 'vue'
+import { useUser } from '../store/useUser'
 import nProgress from 'nprogress'
 
 const router = createRouter({
@@ -106,19 +106,54 @@ const router = createRouter({
     },
     {
       path: '/',
-      redirect: '/dashboard',
+      redirect: '/login',
     },
   ]
 })
 
+let userStore = null;
+
 // 全局路由守卫
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   // console.log(to, from)
   if (to.meta.title) {
     document.title = `${to.meta.title}`;
   }
   nProgress.start()
-  next()
+
+  if (!userStore) {
+    userStore = useUser();
+  }
+
+  // 如果有token则不能去登录页
+  if (userStore.token && to.path === '/login') {
+    next('/dashboard');
+  }
+  // 如果有token并且去的不是登录页
+  else if (userStore.token) {
+    // 没有用户信息则获取一下
+    if (userStore.userInfo !== null) {
+      next();
+    }
+    else {
+      try {
+        await userStore.getUserInfo();
+        next();
+      } catch (error) {
+        userStore.logout();
+        next('/login');
+      }
+    }
+  }
+  // 如果没有token，必须重定向去登录
+  else {
+    if (to.path !== '/login') {
+      next('/login?redirect=' + to.path);
+    }
+    else {
+      next();
+    }
+  }
 })
 
 router.afterEach((to, from) => {

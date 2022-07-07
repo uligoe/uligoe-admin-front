@@ -6,6 +6,9 @@ import {
     BellOutlined,
 } from "@ant-design/icons-vue";
 import emitter from '@/utils/eventbus'
+import { useUser } from "../store/useUser";
+
+const userStore = useUser();
 
 const props = defineProps({
     collapsed: {
@@ -60,7 +63,7 @@ const handleCollapse = () => {
                             <router-link to="/personal">个人资料</router-link>
                         </a-menu-item>
                         <a-menu-item>
-                            <router-link to="/login">注销</router-link>
+                            <router-link to="/login" @click="userStore.logout">注销</router-link>
                         </a-menu-item>
                     </a-menu>
                 </template>

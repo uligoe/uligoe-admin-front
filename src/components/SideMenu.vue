@@ -16,7 +16,7 @@ const props = defineProps({
     },
 });
 
-const selectedKeys = ref(['/dashboard']);
+const selectedKeys = ref(['/']);
 
 const route = useRoute();
 const router = useRouter();

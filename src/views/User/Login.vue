@@ -1,11 +1,14 @@
 <script setup>
-import { onMounted, ref } from "@vue/runtime-core";
-import {useRouter} from 'vue-router'
+import { onMounted, ref, reactive, toRefs } from "vue";
+import { message } from "ant-design-vue";
+import { useUser } from '../../store/useUser';
+import { useRouter, useRoute } from 'vue-router';
 
-const router = useRouter()
+const router = useRouter();
+const route = useRoute();
+const userState = useUser();
 
 const showLogo = ref(false);
-
 onMounted(() => {
     setTimeout(() => {
         showLogo.value = true;
@@ -13,15 +16,34 @@ onMounted(() => {
 });
 
 
-const username = ref('');
-const password = ref('');
+const loginState = reactive({
+    username: '',
+    password: ''
+})
+const { username, password } = toRefs(loginState);
 
-const login = () => {
-    if (username.value === 'admin' && password.value === 'admin') {
-        router.push('/dashboard')
-    } else {
-        alert('登录失败');
+async function login() {
+    try {
+        await userState.login(username.value, password.value);
+        message.success('登录成功');
+        let toPath = route.query.redirect;
+        if (toPath) {
+            router.push(toPath);
+        }
+        else {
+            router.push('/dashboard');
+        }
+    } catch (e) {
+        message.error(e);
     }
+}
+
+function onFinish() {
+    login();
+};
+
+function onFinishFailed(errorInfo) {
+    message.error(errorInfo.errorFields[0].errors[0])
 };
 
 </script>
@@ -34,33 +56,20 @@ const login = () => {
             </div>
             <div class="right">
                 <h1 class="login-title">登录</h1>
-                <div class="login-form">
-                    <div class="form-group">
-                        <label for="username" v-show="false">用户名</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="username"
-                            placeholder="请输入用户名"
-                            v-model="username"
-                        />
-                    </div>
-                    <div class="form-group">
-                        <label for="password" v-show="false">密码</label>
-                        <input
-                            type="password"
-                            class="form-control"
-                            id="password"
-                            placeholder="请输入密码"
-                            v-model="password"
-                        />
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary" @click="login">
-                            登录
-                        </button>
-                    </div>
-                </div>
+                <a-form class="login-form" :model="loginState" name="login-form" @finish="onFinish"
+                    @finishFailed="onFinishFailed">
+                    <a-form-item name="username" :rules="[{ required: true, message: '请输入用户名' }]">
+                        <a-input type="text" class="form-control" id="username" placeholder="请输入用户名"
+                            v-model:value="username"></a-input>
+                    </a-form-item>
+                    <a-form-item name="password" :rules="[{ required: true, message: '请输入密码' }]">
+                        <a-input type="password" class="form-control" id="password" placeholder="请输入密码"
+                            v-model:value="password"></a-input>
+                    </a-form-item>
+                    <a-form-item>
+                        <a-button type="primary" html-type="submit">登录</a-button>
+                    </a-form-item>
+                </a-form>
             </div>
         </div>
     </div>
@@ -113,42 +122,13 @@ const login = () => {
             background: #fff;
 
             .login-title {
-                font-size: 24px;
+                font-size: 26px;
                 color: #2783da;
                 margin: 18px 18px;
             }
 
             .login-form {
-              margin-top: 28px;
-                .form-group {
-                    margin: 18px 18px;
-                    .form-control {
-                        width: 100%;
-                        height: 35px;
-                        border-radius: 5px;
-                        border: 1px solid #ccc;
-                        padding: 0 10px;
-                        font-size: 14px;
-                        outline: none;
-                        &:focus {
-                            border-color: #2783da;
-                        }
-                    }
-                }
-                .form-group button {
-                    margin-top: 18px;
-                    width: 56px;
-                    height: 30px;
-                    border-radius: 5px;
-                    border: none;
-                    background: #2783da;
-                    color: #fff;
-                    font-size: 14px;
-                    cursor: pointer;
-                    &:hover {
-                        background: #2783da;
-                    }
-                }
+                padding: 8px 18px
             }
         }
     }
