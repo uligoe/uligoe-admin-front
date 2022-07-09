@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, toRefs } from "vue";
+import { onMounted, watch } from "vue";
 import { _debounce } from "@/utils/common";
 import * as echarts from "echarts";
 import emitter from "@/utils/eventbus";
@@ -17,7 +17,7 @@ const createLineChart = (dom, data) => {
     let myChart = echarts.init(chartDom);
     let option;
 
-    const xData = data.map((item) => item.date);
+    const xData = data.map((item) => item.date.substring(5, 10));
     const yData = data.map((item) => item.count);
 
     option = {
@@ -68,12 +68,15 @@ const resizeChart = () => {
 };
 
 onMounted(() => {
-    createLineChart("chart-content", props.visitCountList);
     emitter.on("resizeChartEmit", resizeChart);
     window.addEventListener("resize", () => {
         resizeChart();
     });
 });
+
+watch(() => props.visitCountList, newVal => {
+    createLineChart("chart-content", newVal.reverse())
+})
 </script>
 
 <template>

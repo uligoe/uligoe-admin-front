@@ -7,45 +7,32 @@ import {
     UnorderedListOutlined,
     InfoCircleOutlined,
 } from "@ant-design/icons-vue";
-import { toRefs, reactive } from 'vue'
+import { toRefs, reactive, onMounted } from 'vue'
+import * as api from '../../api/dashboardApi'
+import { message } from "ant-design-vue";
 
 // 仪表盘数据
 const dataState = reactive({
-    visitCountList: [
-        {
-            date: "05-31",
-            count: "120",
-        },
-        {
-            date: "06-01",
-            count: "132",
-        },
-        {
-            date: "06-02",
-            count: "101",
-        },
-        {
-            date: "06-03",
-            count: "134",
-        },
-        {
-            date: "06-04",
-            count: "90",
-        },
-        {
-            date: "06-05",
-            count: "230",
-        },
-        {
-            date: "06-06",
-            count: "210",
-        },
-    ], // 访问量列表
-    articleCount: 10, // 文章总数
-    commentCount: 100, // 评论总数
-    visitCount: 1000 // 访问总数
+    visitCountList: [], // 访问量列表
+    articleCount: 0, // 文章总数
+    commentCount: 0, // 评论总数
+    visitCount: 0 // 访问总数
 })
 const { visitCountList, articleCount, commentCount, visitCount } = toRefs(dataState)
+
+onMounted(async () => {
+    const res = await api.reqGetStatistics();
+    console.log(res)
+    if(res.code === 1){
+        dataState.visitCountList = res.data.visit_count_list;
+        dataState.visitCount = parseInt(res.data.visit_count);
+        dataState.articleCount = res.data.article_count;
+        dataState.commentCount = res.data.comment_count;
+    }
+    else{
+        message.error('获取仪表盘数据失败')
+    }
+})
 
 </script>
 
@@ -85,11 +72,11 @@ const { visitCountList, articleCount, commentCount, visitCount } = toRefs(dataSt
                 </DataCard>
             </a-col>
             <a-col :span="5">
-                <DataCard :title="'阅读量'" :number="visitCount" :color="'green'" class="data-card">
+                <DataCard :title="'访问量'" :number="visitCount" :color="'green'" class="data-card">
                     <a-popover>
                         <info-circle-outlined class="cursor-pointer" :style="{ color: '#00000080' }">
                         </info-circle-outlined>
-                        <template #content> 访问量: {{ 1000 }} </template>
+                        <template #content> 访问量: {{ visitCount }} </template>
                     </a-popover>
                 </DataCard>
             </a-col>

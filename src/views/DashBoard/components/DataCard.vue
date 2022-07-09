@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { ref, watch } from "vue";
 
 const props = defineProps({
     number: {
@@ -28,16 +28,18 @@ const slowltCountNumber = (number) => {
     return count;
 };
 
-onMounted(() => {
-    slowltCountNumber(props.number);
-})
+watch(() => props.number, newVal => {
+    slowltCountNumber(newVal);
+}, { immediate: true })
 </script>
 
 <template>
     <div class="data-card" :class="props.color">
         <h1 class="title">{{ props.title }}</h1>
         <h1 class="number">{{ count }}</h1>
-        <div class="icon-slot"><slot class="icon"></slot></div>
+        <div class="icon-slot">
+            <slot class="icon"></slot>
+        </div>
     </div>
 </template>
 
