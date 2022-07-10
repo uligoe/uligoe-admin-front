@@ -159,7 +159,7 @@ router.beforeEach(async (to, from, next) => {
 router.afterEach((to, from) => {
   // console.log(to, from)
   nProgress.done()
-  console.log('afterEach')
+  // console.log('afterEach')
 })
 
 export default router

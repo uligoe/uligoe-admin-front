@@ -10,6 +10,7 @@ export const useUser = defineStore('user', {
     actions: {
         async login(username, password) {
             const res = await api.reqLogin({ username, password })
+            console.log(res)
             if (res.code === 1) {
                 this.token = res.data.token;
                 localStorage.setItem('USER_TOKEN', res.data.token);

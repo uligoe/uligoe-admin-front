@@ -37,8 +37,8 @@ async function login() {
             router.push('/dashboard');
         }
     } catch (e) {
-        console.log(e)
-        message.error('登录连接失败');
+        loading.value = false;
+        message.error(typeof e === 'string' ? e : e.message);
     }
 }
 

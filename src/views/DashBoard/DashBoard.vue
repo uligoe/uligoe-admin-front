@@ -7,7 +7,7 @@ import {
     UnorderedListOutlined,
     InfoCircleOutlined,
 } from "@ant-design/icons-vue";
-import { toRefs, reactive, onMounted ,onBeforeMount} from 'vue'
+import { toRefs, reactive, onMounted } from 'vue'
 import * as api from '../../api/dashboardApi'
 import { message } from "ant-design-vue";
 
@@ -20,23 +20,27 @@ const dataState = reactive({
 })
 const { visitCountList, articleCount, commentCount, visitCount } = toRefs(dataState)
 
-onBeforeMount(async () => {
-    const res = await api.reqGetStatistics();
-    if(res.code === 1){
-        dataState.visitCountList = res.data.visit_count_list;
-        dataState.visitCount = parseInt(res.data.visit_count);
-        dataState.articleCount = res.data.article_count;
-        dataState.commentCount = res.data.comment_count;
-    }
-    else{
-        message.error('获取仪表盘数据失败')
+onMounted(async () => {
+    try {
+        const res = await api.reqGetStatistics();
+        if (res.code === 1) {
+            dataState.visitCountList = res.data.visit_count_list;
+            dataState.visitCount = parseInt(res.data.visit_count);
+            dataState.articleCount = res.data.article_count;
+            dataState.commentCount = res.data.comment_count;
+        }
+        else {
+            message.error('获取仪表盘数据失败')
+        }
+    } catch (err) {
+        message.error(typeof err === 'string' ? err : err.message)
     }
 })
 
 </script>
 
 <template>
-    <div class="dash-board">
+    <div class="dash-board" >
         <a-row justify="space-around" class="data-cards-panel">
             <a-col :span="5">
                 <DataCard :title="'文章'" :number="articleCount" class="data-card">
