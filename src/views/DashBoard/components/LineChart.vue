@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { _debounce } from "@/utils/common";
 import * as echarts from "echarts";
 import emitter from "@/utils/eventbus";
@@ -77,6 +77,7 @@ onMounted(() => {
 watch(() => props.visitCountList, newVal => {
     createLineChart("chart-content", newVal.reverse())
 })
+
 </script>
 
 <template>

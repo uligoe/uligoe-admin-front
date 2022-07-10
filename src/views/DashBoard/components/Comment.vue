@@ -1,46 +1,50 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref, watch } from "vue";
+import { useComment } from "../../../store/useComment";
 
-const activeKey = ref('1')
+const activeKey = ref('article')
+const loading = ref(false)
 
-const commentList = ref([
-    {
-        title: "Comment Title 1",
-        description: "Comment Description 1",
-    },
-    {
-        title: "Comment Title 1",
-        description: "Comment Description 1",
-    },
-    {
-        title: "Comment Title 2",
-        description: "Comment Description 1",
-    },
-]);
+const commentStore = useComment();
+
+watch(activeKey, async newVal => {
+    loading.value = true;
+    await commentStore.getCommentList({ pageSize: 3 }, newVal);
+    loading.value = false;
+}, { immediate: true })
 </script>
 
 <template>
     <a-tabs v-model:activeKey="activeKey" style="margin-top: -24px">
-        <a-tab-pane key="1" tab="文章评论"></a-tab-pane>
-        <a-tab-pane key="2" tab="站点评论" force-render></a-tab-pane>
+        <a-tab-pane key="article" tab="文章评论"></a-tab-pane>
+        <a-tab-pane key="station" tab="站点评论" force-render></a-tab-pane>
     </a-tabs>
-    <a-list item-layout="horizontal" :data-source="commentList">
+    <a-list class="comment-list" :data-source="commentStore.commentList" :loading="loading">
         <template #renderItem="{ item }">
             <a-list-item>
-                <a-list-item-meta :description="item.description">
-                    <template #title>
-                        <a href="https://www.antdv.com/">{{
-                                item.title
-                        }}</a>
+                <a-comment :author="item.user" :avatar="item.avatar">
+                    <template #content>
+                        <p>
+                            {{ item.content }}
+                        </p>
                     </template>
-                    <template #avatar>
-                        <a-avatar src="https://joeschmoe.io/api/v1/random" />
+                    <template #datetime>
+                        <a-tooltip :title="item.publish_time">
+                            <span>{{ item.publish_time }}</span>
+                        </a-tooltip>
                     </template>
-                </a-list-item-meta>
+                </a-comment>
             </a-list-item>
         </template>
     </a-list>
 </template>
 
-<style lang='less' scoped>
+<style lang='less'>
+.ant-list-item {
+    padding: 10px 0;
+}
+
+.ant-comment-inner {
+    padding: 0
+}
 </style>

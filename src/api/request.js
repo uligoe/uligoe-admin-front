@@ -9,7 +9,7 @@ let userStore = null;
 let router = null;
 
 export const request = axios.create({
-    timeout: 5000, // 请求超时时间
+    timeout: 10000, // 请求超时时间
     baseURL: ConfigBaseURL,
     method: 'post',
     headers: {

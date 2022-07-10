@@ -7,7 +7,7 @@ import {
     UnorderedListOutlined,
     InfoCircleOutlined,
 } from "@ant-design/icons-vue";
-import { toRefs, reactive, onMounted } from 'vue'
+import { toRefs, reactive, onMounted ,onBeforeMount} from 'vue'
 import * as api from '../../api/dashboardApi'
 import { message } from "ant-design-vue";
 
@@ -20,9 +20,8 @@ const dataState = reactive({
 })
 const { visitCountList, articleCount, commentCount, visitCount } = toRefs(dataState)
 
-onMounted(async () => {
+onBeforeMount(async () => {
     const res = await api.reqGetStatistics();
-    console.log(res)
     if(res.code === 1){
         dataState.visitCountList = res.data.visit_count_list;
         dataState.visitCount = parseInt(res.data.visit_count);

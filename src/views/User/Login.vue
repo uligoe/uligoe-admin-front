@@ -18,13 +18,16 @@ onMounted(() => {
 
 const loginState = reactive({
     username: '',
-    password: ''
+    password: '',
+    loading: false,
 })
-const { username, password } = toRefs(loginState);
+const { username, password, loading } = toRefs(loginState);
 
 async function login() {
     try {
+        loading.value = true;
         await userState.login(username.value, password.value);
+        loading.value = false;
         message.success('登录成功');
         let toPath = route.query.redirect;
         if (toPath) {
@@ -34,7 +37,8 @@ async function login() {
             router.push('/dashboard');
         }
     } catch (e) {
-        message.error(e);
+        console.log(e)
+        message.error('登录连接失败');
     }
 }
 
@@ -60,14 +64,14 @@ function onFinishFailed(errorInfo) {
                     @finishFailed="onFinishFailed">
                     <a-form-item name="username" :rules="[{ required: true, message: '请输入用户名' }]">
                         <a-input type="text" class="form-control" id="username" placeholder="请输入用户名"
-                            v-model:value="username"></a-input>
+                            v-model:value="username" :disabled="loading"></a-input>
                     </a-form-item>
                     <a-form-item name="password" :rules="[{ required: true, message: '请输入密码' }]">
                         <a-input type="password" class="form-control" id="password" placeholder="请输入密码"
-                            v-model:value="password"></a-input>
+                            v-model:value="password" :disabled="loading"></a-input>
                     </a-form-item>
                     <a-form-item>
-                        <a-button type="primary" html-type="submit">登录</a-button>
+                        <a-button type="primary" html-type="submit" :loading="loading">登录</a-button>
                     </a-form-item>
                 </a-form>
             </div>

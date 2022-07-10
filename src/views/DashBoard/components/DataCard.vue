@@ -4,7 +4,7 @@ import { ref, watch } from "vue";
 const props = defineProps({
     number: {
         type: Number,
-        default: 0,
+        default: -1,
     },
     title: {
         type: String,
