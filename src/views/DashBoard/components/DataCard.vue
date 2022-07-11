@@ -4,7 +4,7 @@ import { ref, watch } from "vue";
 const props = defineProps({
     number: {
         type: Number,
-        default: -1,
+        default: 0,
     },
     title: {
         type: String,
@@ -20,9 +20,11 @@ const count = ref(props.number - 150 > 0 ? props.number - 150 : 0);
 
 const slowltCountNumber = (number) => {
     const timer = setInterval(() => {
-        count.value += 1;
         if (count.value >= number) {
             clearInterval(timer);
+        }
+        else {
+            count.value += 1;
         }
     }, 5);
     return count;

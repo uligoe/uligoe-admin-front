@@ -16,15 +16,18 @@ const emits = defineEmits(['edit', 'delete'])
             <a-list-item>
                 <template #actions>
                     <a key="list-loadmore-edit" @click="$emit('edit', item)">修改</a>
-                    <a key="list-loadmore-more" @click="$emit('delete')">删除</a>
+                    <a-popconfirm title="确认删除吗?" ok-text="确认" cancel-text="取消" @confirm="$emit('delete', item.id)">
+                        <a key="list-loadmore-more">删除</a>
+                    </a-popconfirm>
+
                 </template>
                 <a-list-item-meta :description="item.description">
                     <template #title>
                         <a>{{ item.title }}</a>
-                        <span style="margin-left: 20px;color: grey">{{item.time}}</span>
+
                     </template>
                     <template #avatar>
-                        <a-image :width="55" :src="item.bgImg" />
+                        <a-image :width="55" :src="item.cover_img" />
                     </template>
                 </a-list-item-meta>
 

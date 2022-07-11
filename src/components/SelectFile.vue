@@ -1,6 +1,5 @@
 <script setup>
 import { ref, watch } from 'vue';
-import { FolderAddOutlined } from "@ant-design/icons-vue";
 
 const props = defineProps({
     fileName: {
@@ -18,7 +17,7 @@ watch(value, (newVal) => {
 
 watch(() => props.fileName, (newVal) => {
     value.value = newVal;
-})
+}, {immediate: true})
 
 const visible = ref(false)
 

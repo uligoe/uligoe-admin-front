@@ -1,57 +1,15 @@
 <script setup>
-import { reactive, toRefs } from 'vue'
+import { onMounted } from 'vue'
+import { useArticle } from '../../../../store/useArticle';
+import { storeToRefs } from 'pinia';
+import {useRouter} from 'vue-router';
 
 // 文章列表数据
-const articleState = reactive({
-    articleList: [
-        {
-            "id": "0a341099-37e6-4ff6-9925-e8cee2b85955",
-            "status": "公开",
-            "title": "uligoe博客的第一篇文章",
-            "content_url": "/article/0a341099-37e6-4ff6-9925-e8cee2b85955.md",
-            "publish_time": "2022-06-29 10:48:02",
-            "visit_count": "22",
-            "comment_count": 6,
-            "tag_list": [
-                {
-                    "id": "5814570b-ef49-4836-a0c0-798235b52dce",
-                    "title": "vue",
-                    "color": "green"
-                },
-                {
-                    "id": "709ce264-34e6-4cd4-99b7-05d0609e265b",
-                    "title": "js",
-                    "color": "green"
-                }
-            ],
-            "category": "前端"
-        },
-        {
-            "id": "c0db772b-c034-4695-8d24-fa1d55765100",
-            "status": "私密",
-            "title": "uligoe博客的第二篇文章",
-            "content_url": "/article/c0db772b-c034-4695-8d24-fa1d55765100.md",
-            "publish_time": "2022-06-29 11:03:14",
-            "visit_count": null,
-            "comment_count": 2,
-            "tag_list": [
-                {
-                    "id": "5814570b-ef49-4836-a0c0-798235b52dce",
-                    "title": "vue",
-                    "color": "green"
-                },
-                {
-                    "id": "709ce264-34e6-4cd4-99b7-05d0609e265b",
-                    "title": "js",
-                    "color": "green"
-                }
-            ],
-            "category": "前端"
-        }
-    ],
-    loading: false,
+const articleStore = useArticle();
+const { articleList, loading } = storeToRefs(articleStore);
+onMounted(() => {
+    articleStore.getArticleList();
 })
-const { articleList, loading } = toRefs(articleState)
 
 // 选中项目的函数们
 const rowSelection = {
@@ -64,6 +22,7 @@ const rowSelection = {
     },
     getCheckboxProps: (record) => ({}),
 };
+
 // 表格的列名配置列表
 const columns = [
     {
@@ -104,9 +63,21 @@ const columns = [
     {
         title: "操作",
         key: "operation",
-        width: "200px",
     },
 ];
+
+function recycleArticle(id) {
+    articleStore.recyle(id, 'delete');
+}
+
+
+const router = useRouter();
+function editArticle(article) {
+    article.tag_list = Object.values(article.tag_list).map(item => item.id);
+    console.log(article.tag_list)
+    router.push({name:'write', params: article})
+}
+
 </script>
 
 <template>
@@ -153,11 +124,11 @@ const columns = [
                 </template>
 
                 <template v-else-if="column.key === 'operation'">
-                    <a>编辑</a>
+                    <a @click="editArticle(record)">编辑</a>
                     <a-divider type="vertical" />
-                    <a>删除</a>
-                    <a-divider type="vertical" />
-                    <a>设置</a>
+                    <a @click="recycleArticle(record.id)">删除</a>
+                    <!-- <a-divider type="vertical" />
+                    <a>设置</a> -->
                 </template>
             </template>
         </a-table>

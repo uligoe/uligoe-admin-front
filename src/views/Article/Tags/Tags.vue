@@ -1,50 +1,16 @@
 <script setup>
-import { reactive, toRefs } from "@vue/reactivity";
-import { PlusOutlined, UploadOutlined } from '@ant-design/icons-vue';
+import { PlusOutlined, UploadOutlined, DeleteOutlined } from '@ant-design/icons-vue';
+import { useTag } from "../../../store/useTag";
+import { storeToRefs } from "pinia";
+import { onMounted } from "vue";
 
-const tagState = reactive({
-    tagList: [
-        {
-            title: "vue",
-            id: 1,
-            color: "purple",
-        },
-        {
-            title: "js",
-            id: 2,
-            color: "volcano",
-        }
-    ],
-    status: 'add',
-    title: '',
-    color: 'rgb(32, 151, 243)'
+const tagStore = useTag();
+const { tagList, loading, status, title, color } = storeToRefs(tagStore);
+onMounted(() => {
+    tagStore.getTagList();
+    tagStore.clear();
 })
-const { tagList, status, title, color } = toRefs(tagState)
 
-const tagFn = {
-    onAddNewTagClick() {
-        status.value = "add";
-        title.value = "";
-        color.value = "rgb(32, 151, 243)";
-    },
-
-    onTagClick(tag) {
-        status.value = 'edit';
-        title.value = tag.title;
-        color.value = tag.color;
-    },
-
-    // 表单验证通过
-    onFinish(values) {
-        console.log("Success:", values);
-        // 上传
-    },
-
-    // 表单验证不通过
-    onFinishFailed(errorInfo) {
-        console.log("Failed:", errorInfo);
-    }
-}
 </script>
 
 <template>
@@ -53,7 +19,8 @@ const tagFn = {
             <a-col :span="10">
                 <div class="tags-form">
                     <a-card :title="status === 'add' ? '添加标签' : '修改标签'" :bordered="false">
-                        <a-form :model="tagState" name="basic" @finish="tagFn.onFinish" @finishFailed="tagFn.onFinishFailed">
+                        <a-form :model="tagStore" name="basic" @finish="tagStore.onFinish"
+                            @finishFailed="tagStore.onFinishFailed">
                             <a-form-item label="标签名称" name="title" :rules="[
                                 {
                                     required: true,
@@ -82,12 +49,19 @@ const tagFn = {
                                         <UploadOutlined />
                                     </template>上传
                                 </a-button>
-                                <a-button v-if="status !== 'add'" html-type="submit" style="margin-left: 10px"
-                                    @click="tagFn.onAddNewTagClick">
+                                <a-button v-if="status !== 'add'" style="margin-left: 10px" @click="tagStore.clear">
                                     <template #icon>
                                         <PlusOutlined />
                                     </template>新建标签
                                 </a-button>
+                                <a-popconfirm title="确认删除吗?" ok-text="确认" cancel-text="取消"
+                                    @confirm="tagStore.deleteTag">
+                                    <a-button v-if="status !== 'add'" style="margin-left: 10px">
+                                        <template #icon>
+                                            <DeleteOutlined />
+                                        </template>删除标签
+                                    </a-button>
+                                </a-popconfirm>
                             </a-form-item>
                         </a-form>
                     </a-card>
@@ -95,9 +69,10 @@ const tagFn = {
             </a-col>
             <a-col :span="13">
                 <div class="tags-panel">
-                    <a-card title="所有标签" :bordered="false">
-                        <a-tag v-for="tag in tagList" :key="tag" :color="tag.color" @click="tagFn.onTagClick(tag)"
-                            style="cursor: pointer">
+                    <a-card title="所有标签" :bordered="false" :loading="loading">
+                        <a-empty v-if="tagList.length === 0"></a-empty>
+                        <a-tag v-else v-for="tag in tagList" :key="tag" :color="tag.color"
+                            @click="tagStore.onTagClick(tag)" style="cursor: pointer">
                             {{ tag.title }}
                         </a-tag>
                     </a-card>

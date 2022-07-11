@@ -3,15 +3,30 @@ import MdEditor from "md-editor-v3";
 import "md-editor-v3/lib/style.css";
 import { message } from 'ant-design-vue';
 import SelectFile from "../../../components/SelectFile.vue";
-import { reactive, toRefs, ref } from "vue";
+import { reactive, toRefs, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
+import { request } from '../../../api/request';
+import { useCategory } from "../../../store/useCategory";
+import { useTag } from "../../../store/useTag";
+import { storeToRefs } from "pinia";
+import { reqUploadArticle, reqEditArticle } from "../../../api/articleApi";
+import { useRoute } from 'vue-router'
+import axios from "axios";
+
 const router = useRouter();
+const route = useRoute();
+const article = route.params;
+const categoryStore = useCategory();
+const tagStore = useTag();
+const { categoryList, loading: categoryLoading } = storeToRefs(categoryStore);
+const { tagList, loading: tagLoading } = storeToRefs(tagStore);
 
 const writeState = reactive({
+    h1: '新文章',
     title: '',
     content: '',
 })
-const { title, content } = toRefs(writeState);
+const { h1, title, content } = toRefs(writeState);
 
 const uploadState = reactive({
     visible: false,
@@ -27,14 +42,37 @@ const uploadState = reactive({
 })
 const { visible, uploading, status, belongTo, selectedTag, bgImg } = toRefs(uploadState);
 
+const ruleForm = ref(null);
+
 const uploadFn = {
-    handleOk() {
-        uploading.value = true;
-        setTimeout(() => {
+    async handleOk() {
+        try {
+            await ruleForm.value.validate();
+            const reqFn = h1.value === '新文章' ? reqUploadArticle : reqEditArticle;
+            const params = {
+                status: status.value,
+                title: title.value,
+                content: content.value,
+                belongTo: belongTo.value,
+                tags: Object.values(selectedTag.value),
+                bgImg: bgImg.value
+            }
+            if (h1.value !== '新文章') {
+                console.log(article)
+                params.id = article.id;
+            }
+            uploading.value = true;
+            const res = await reqFn(params);
             uploading.value = false;
-            visible.value = false;
-            router.push('/articles')
-        }, 2000)
+            if (res.code === 1) {
+                message.success(res.message);
+                visible.value = false;
+                router.push('/articles')
+            }
+            else {
+                message.error(res.message);
+            }
+        } catch (error) { }
     },
 
     handleCancel() {
@@ -62,21 +100,6 @@ const uploadFn = {
     },
 }
 
-const tagList = ref([
-    {
-        value: 'vue'
-    },
-    {
-        value: 'js'
-    },
-])
-
-const categoryList = ref([
-    {
-        id: 'xxxxx',
-        title: '前端'
-    }
-])
 
 const onUploadImg = async (files, callback) => {
     const res = await Promise.all(
@@ -85,8 +108,8 @@ const onUploadImg = async (files, callback) => {
                 const form = new FormData();
                 form.append('file', file);
 
-                axios
-                    .post('/api/img/upload', form, {
+                request
+                    .post('http://localhost:3001/api/file/upload', form, {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
@@ -100,7 +123,24 @@ const onUploadImg = async (files, callback) => {
     callback(res.map((item) => item.data.url));
 };
 
+const loading = ref(false);
+onMounted(async () => {
+    if (JSON.stringify(article) !== '{}') {
+        h1.value = '编辑文章';
+        loading.value = true;
+        const res = await axios.get('http://localhost:3001' + article.content_url);
+        loading.value = false;
+        content.value = res.data + '';
+        await categoryStore.getCategoryList();
+        await tagStore.getTagList();
 
+        title.value = article.title;
+        status.value = article.status;
+        belongTo.value = article.belong_to;
+        bgImg.value = article.bg_img;
+        selectedTag.value = article.tag_list;
+    }
+})
 </script>
 
 <template>
@@ -109,8 +149,8 @@ const onUploadImg = async (files, callback) => {
             <a-button key="back" @click="uploadFn.handleCancel" :disabled="uploading">取消</a-button>
             <a-button key="submit" type="primary" :loading="uploading" @click="uploadFn.handleOk">上传</a-button>
         </template>
-        <a-form :model="uploadState" v-bind="uploadState.layout" name="upload-info" @finish="uploadFn.onFinish"
-            @finishFailed="uploadFn.onFinishFailed" autocomplete="off">
+        <a-form ref="ruleForm" :model="uploadState" v-bind="uploadState.layout" name="upload-info"
+            @finish="uploadFn.onFinish" @finishFailed="uploadFn.onFinishFailed" autocomplete="off">
             <a-form-item name="status" label="状态" :rules="[{ required: true, message: '请选择发布状态' }]">
                 <a-select ref="select" v-model:value="status">
                     <a-select-option value="公开">公开</a-select-option>
@@ -122,21 +162,26 @@ const onUploadImg = async (files, callback) => {
             </a-form-item>
 
             <a-form-item name="belongTo" label="分类" :rules="[{ required: true, message: '请选择分类' }]">
-                <a-select ref="select" v-model:value="belongTo" placeholder="请选择分类">
+                <a-select ref="select" v-model:value="belongTo" placeholder="请选择分类" :loading="categoryLoading"
+                    @click.once="categoryStore.getCategoryList">
                     <a-select-option :value="categoryItem.id" v-for="categoryItem in categoryList"
                         :key="categoryItem.id">{{ categoryItem.title }}</a-select-option>
                 </a-select>
             </a-form-item>
 
-            <a-form-item name="tags" label="标签">
+            <a-form-item name="selectedTag" label="标签" :rules="[{ required: true, message: '请选择标签', type: 'array' }]">
                 <!-- <a-input :value="props. /> -->
-                <a-select v-model:value="selectedTag" mode="multiple" placeholder="选择标签" :options="tagList"></a-select>
+                <a-select v-model:value="selectedTag" mode="multiple" placeholder="选择标签" :loading="tagLoading"
+                    @click.once="tagStore.getTagList">
+                    <a-select-option :value="tagItem.id" v-for="tagItem in tagList" :key="tagItem.id">{{ tagItem.title
+                    }}</a-select-option>
+                </a-select>
             </a-form-item>
         </a-form>
     </a-modal>
     <div class="write-page">
         <div class="top">
-            <h1 class="title">新文章</h1>
+            <h1 class="title">{{ h1 }}</h1>
             <a-button type="primary" class="upload-btn" @click="uploadFn.showUploadDialog">上传</a-button>
         </div>
         <div class="content">

@@ -24,10 +24,10 @@ onMounted(async () => {
     try {
         const res = await api.reqGetStatistics();
         if (res.code === 1) {
-            dataState.visitCountList = res.data.visit_count_list;
-            dataState.visitCount = parseInt(res.data.visit_count);
-            dataState.articleCount = res.data.article_count;
-            dataState.commentCount = res.data.comment_count;
+            dataState.visitCountList = res.data.visit_count_list || [];
+            dataState.visitCount = parseInt(res.data.visit_count) || 0;
+            dataState.articleCount = res.data.article_count || 0;
+            dataState.commentCount = res.data.comment_count || 0;
         }
         else {
             message.error('获取仪表盘数据失败')
