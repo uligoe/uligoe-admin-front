@@ -1,25 +1,27 @@
 <script setup>
-import { onMounted, ref, watch } from "vue";
+import { storeToRefs } from "pinia";
+import { onMounted, watch } from "vue";
 import { useComment } from "../../../store/useComment";
 
-const activeKey = ref('article')
-const loading = ref(false)
-
 const commentStore = useComment();
+const { loading, commentList, type } = storeToRefs(commentStore);
 
-watch(activeKey, async newVal => {
-    loading.value = true;
-    await commentStore.getCommentList({ pageSize: 3 }, newVal);
-    loading.value = false;
+watch(type, newVal => {
+    commentStore.getCommentList(3);
 }, { immediate: true })
+
+onMounted(() => {
+    type.value = 'article'
+})
+
 </script>
 
 <template>
-    <a-tabs v-model:activeKey="activeKey" style="margin-top: -24px">
+    <a-tabs v-model:activeKey="type" style="margin-top: -24px">
         <a-tab-pane key="article" tab="文章评论"></a-tab-pane>
         <a-tab-pane key="station" tab="站点评论" force-render></a-tab-pane>
     </a-tabs>
-    <a-list class="comment-list" :data-source="commentStore.commentList" :loading="loading">
+    <a-list class="comment-list" :data-source="commentList" :loading="loading">
         <template #renderItem="{ item }">
             <a-list-item>
                 <a-comment :author="item.user" :avatar="item.avatar">

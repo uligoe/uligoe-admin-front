@@ -106,8 +106,8 @@ function editArticle(article) {
 
                 <template v-else-if="column.key === 'tags'">
                     <span>
-                        <a-tag v-for="(tag, index) in record.tag_list" :key="tag.id" :color="tag.color"
-                            :style="index > 2 ? 'margin-top: 5px' : ''">
+                        <a-tag v-for="(tag) in record.tag_list" :key="tag.id" :color="tag.color"
+                            style="margin-bottom: 4px">
                             {{ tag.title }}
                         </a-tag>
                     </span>
