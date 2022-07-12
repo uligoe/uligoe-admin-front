@@ -1,5 +1,7 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
+import { useFile } from '../store/useFile';
+import { storeToRefs } from 'pinia';
 
 const props = defineProps({
     fileName: {
@@ -17,23 +19,16 @@ watch(value, (newVal) => {
 
 watch(() => props.fileName, (newVal) => {
     value.value = newVal;
-}, {immediate: true})
+}, { immediate: true })
 
 const visible = ref(false)
 
+const fileStore = useFile();
+const { fileList } = storeToRefs(fileStore);
 
-const fileList = ref([
-    {
-        "id": "30ba8002-bdfe-4279-9335-c89ddf7c0133",
-        "name": "测试",
-        "url": "http://localhost:3001/upload/24a0e285118107f8c80652209.JPG"
-    },
-    {
-        "id": "30ba8002-bdfe-4279-9335-c89ddf7c0133",
-        "name": "测试",
-        "url": "http://localhost:3001/upload/24a0e285118107f8c80652209.JPG"
-    }
-])
+onMounted(() => {
+    fileStore.getFileList();
+})
 
 const onImgClick = (url) => {
     value.value = url;
@@ -50,7 +45,8 @@ const onImgClick = (url) => {
                 <a-col :span="12" v-for="file in fileList">
                     <a-card hoverable style="margin: 10px;margin-left: 0;" @click="onImgClick(file.url)">
                         <template #cover>
-                            <img alt="example" height="180" style="object-fit:cover" :src="file.url" />
+                            <img alt="example" height="180" style="object-fit:cover"
+                                :src="'http://localhost:3001' + file.url" />
                         </template>
                         <a-card-meta :title="file.name">
                         </a-card-meta>

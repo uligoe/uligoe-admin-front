@@ -1,5 +1,4 @@
 <script setup>
-import { ref, reactive, toRefs } from "@vue/reactivity";
 import { PlusOutlined, UploadOutlined } from "@ant-design/icons-vue";
 import CategoryList from "./components/CategoryList.vue";
 import SelectFile from "../../../components/SelectFile.vue";
@@ -13,7 +12,7 @@ const layout = {
 };
 
 const categoryStore = useCategory();
-const {categoryList, loading, title, coverImg, description, status  } = storeToRefs(categoryStore);
+const { categoryList, loading, title, coverImg, description, status } = storeToRefs(categoryStore);
 
 onMounted(() => {
     categoryStore.getCategoryList();
@@ -30,17 +29,15 @@ onMounted(() => {
                     <a-card :title="status === 'add' ? '添加分类' : '修改分类'" :bordered="false">
                         <a-form v-bind="layout" :model="categoryStore" name="basic" @finish="categoryStore.onFinish"
                             @finishFailed="categoryStore.onFinishFailed">
-                            <a-form-item label="名称" name="title" labelAlign="right"
-                                :rules="[{ required: true, message: '请填写标签的名称' }]">
+                            <a-form-item label="名称" name="title" :rules="[{ required: true, message: '请填写标签的名称' }]">
                                 <a-input v-model:value="title" placeholder="请输入标签名称" />
                             </a-form-item>
 
-                            <a-form-item label="封面" name="coverImg" labelAlign="right"
-                                :rules="[{ required: true, message: '请选择封面图' }]">
+                            <a-form-item label="封面" name="coverImg" :rules="[{ required: true, message: '请选择封面图' }]">
                                 <SelectFile v-model:fileName="coverImg"></SelectFile>
                             </a-form-item>
 
-                            <a-form-item label="描述" name="title" labelAlign="right">
+                            <a-form-item label="描述" name="title">
                                 <a-textarea v-model:value="description" :rows="4" />
                             </a-form-item>
 
@@ -65,7 +62,8 @@ onMounted(() => {
             <a-col :span="13">
                 <div class="category-panel">
                     <a-card title="所有分类" :bordered="false" :loading="loading">
-                        <CategoryList :categoryList="categoryList" @edit="categoryStore.onCategoryEditClick" @delete="categoryStore.deleteCategory">
+                        <CategoryList :categoryList="categoryList" @edit="categoryStore.onCategoryEditClick"
+                            @delete="categoryStore.deleteCategory">
                         </CategoryList>
                     </a-card>
                 </div>
