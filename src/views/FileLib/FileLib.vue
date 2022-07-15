@@ -22,7 +22,7 @@ onMounted(() => {
       </template>
 
       <a-upload-dragger v-model:fileList="uploadList" name="file" :maxCount="1"
-        action="http://localhost:3001/api/file/upload" @change="fileStore.handleChange">
+        action="/api/file/upload" @change="fileStore.handleChange">
         <p class="ant-upload-drag-icon">
           <inbox-outlined></inbox-outlined>
         </p>
@@ -42,7 +42,7 @@ onMounted(() => {
         <a-col :span="6" v-for="file in fileList">
           <a-card hoverable style="margin: 10px;margin-left: 0;">
             <template #cover>
-              <img alt="example" height="260" style="object-fit:cover" :src="'http://localhost:3001' + file.url" />
+              <img alt="example" height="260" style="object-fit:cover" :src="file.url" />
             </template>
             <template #actions>
               <DownloadOutlined key="download" @click="fileStore.download(file.url)" />

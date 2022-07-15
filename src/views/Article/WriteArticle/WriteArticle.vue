@@ -38,9 +38,10 @@ const uploadState = reactive({
     layout: {
         labelCol: { span: 3 },
         wrapperCol: { span: 21 },
-    }
+    },
+    description: ''
 })
-const { visible, uploading, status, belongTo, selectedTag, bgImg } = toRefs(uploadState);
+const { visible, uploading, status, belongTo, selectedTag, bgImg, description } = toRefs(uploadState);
 
 const ruleForm = ref(null);
 
@@ -55,10 +56,10 @@ const uploadFn = {
                 content: content.value,
                 belongTo: belongTo.value,
                 tags: Object.values(selectedTag.value),
-                bgImg: bgImg.value
+                bgImg: bgImg.value,
+                description: description.value
             }
             if (h1.value !== '新文章') {
-                console.log(article)
                 params.id = article.id;
             }
             uploading.value = true;
@@ -92,11 +93,11 @@ const uploadFn = {
     },
 
     onFinish(values) {
-        console.log('Success:', values);
+        // console.log('Success:', values);
     },
 
     onFinishFailed(errorInfo) {
-        console.log('Failed:', errorInfo);
+        // console.log('Failed:', errorInfo);
     },
 }
 
@@ -109,7 +110,7 @@ const onUploadImg = async (files, callback) => {
                 form.append('file', file);
 
                 request
-                    .post('http://localhost:3001/api/file/upload', form, {
+                    .post('/api/file/upload', form, {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
@@ -128,7 +129,7 @@ onMounted(async () => {
     if (JSON.stringify(article) !== '{}') {
         h1.value = '编辑文章';
         loading.value = true;
-        const res = await axios.get('http://localhost:3001' + article.content_url);
+        const res = await axios.get(article.content_url);
         loading.value = false;
         content.value = res.data + '';
         await categoryStore.getCategoryList();
@@ -139,6 +140,7 @@ onMounted(async () => {
         belongTo.value = article.belong_to;
         bgImg.value = article.bg_img;
         selectedTag.value = article.tag_list;
+        description.value = article.description;
     }
 })
 </script>
@@ -176,6 +178,9 @@ onMounted(async () => {
                     <a-select-option :value="tagItem.id" v-for="tagItem in tagList" :key="tagItem.id">{{ tagItem.title
                     }}</a-select-option>
                 </a-select>
+            </a-form-item>
+            <a-form-item name="description" label="简介" :rules="[{ required: true, message: '请输入简介' }]">
+                <a-textarea v-model:value="description" :rows="4"></a-textarea>
             </a-form-item>
         </a-form>
     </a-modal>

@@ -77,7 +77,7 @@ export const useFile = defineStore('file', {
         },
 
         download(url) {
-            window.open('http://localhost:3001' + url);
+            window.open(url);
         }
     }
 })

@@ -4,6 +4,7 @@ import { resolve } from "path"
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: "/admin",
   plugins: [vue()],
 
   // 配置 @ 符号
