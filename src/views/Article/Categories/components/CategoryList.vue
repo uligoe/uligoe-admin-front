@@ -27,7 +27,7 @@ const emits = defineEmits(['edit', 'delete'])
 
                     </template>
                     <template #avatar>
-                        <a-image :width="55" :src="'http://localhost:3001'+item.cover_img" />
+                        <a-image :width="55" :src="item.cover_img" />
                     </template>
                 </a-list-item-meta>
 

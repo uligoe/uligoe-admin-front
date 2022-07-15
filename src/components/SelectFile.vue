@@ -46,7 +46,7 @@ const onImgClick = (url) => {
                     <a-card hoverable style="margin: 10px;margin-left: 0;" @click="onImgClick(file.url)">
                         <template #cover>
                             <img alt="example" height="180" style="object-fit:cover"
-                                :src="'http://localhost:3001' + file.url" />
+                                :src="file.url" />
                         </template>
                         <a-card-meta :title="file.name">
                         </a-card-meta>
