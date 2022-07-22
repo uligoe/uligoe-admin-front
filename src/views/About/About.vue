@@ -3,7 +3,7 @@
     <div class="about-panel">
       <h1><img class="logo" src="../../assets/imgs/logo.png" alt=""></h1>
       <h1>个人博客系统后台管理平台</h1>
-      <h1>v 0.1.1</h1>
+      <h1>v 0.1.3</h1>
     </div>
   </div>
 </template>

@@ -7,9 +7,24 @@ import {
     UnorderedListOutlined,
     InfoCircleOutlined,
 } from "@ant-design/icons-vue";
-import { toRefs, reactive, onMounted } from 'vue'
+import { toRefs, reactive, onMounted, computed } from 'vue'
 import * as api from '../../api/dashboardApi'
 import { message } from "ant-design-vue";
+import { useUser } from "../../store/useUser";
+
+const userStore = useUser();
+// 建站天数
+const days = computed(() => getDiffDate(userStore.userInfo.create_time))
+
+function getDiffDate(targetDate) {
+    let date1 = new Date(targetDate);
+    let date2 = new Date();
+    date1 = new Date(date1.getFullYear(), date1.getMonth(), date1.getDate());
+    date2 = new Date(date2.getFullYear(), date2.getMonth(), date2.getDate());
+    const diff = date2.getTime() - date1.getTime();
+    const diffDate = diff / (24 * 60 * 60 * 1000);
+    return diffDate;
+}
 
 // 仪表盘数据
 const dataState = reactive({
@@ -64,18 +79,18 @@ onMounted(async () => {
                 </DataCard>
             </a-col>
             <a-col :span="5">
-                <DataCard :title="'建站天数'" :number="10" :color="'yellow'" class="data-card">
+                <DataCard :title="'建站天数'" :number="days" :color="'yellow'" class="data-card">
                     <a-popover>
                         <info-circle-outlined class="cursor-pointer" :style="{ color: '#00000080' }">
                         </info-circle-outlined>
                         <template #content>
-                            建站时间: {{ "2022-06-06" }}
+                            建站时间: {{ userStore.userInfo.create_time }}
                         </template>
                     </a-popover>
                 </DataCard>
             </a-col>
             <a-col :span="5">
-                <DataCard :title="'访问量'" :number="visitCount" :color="'green'" class="data-card">
+                <DataCard :title="'总访问量'" :number="visitCount" :color="'green'" class="data-card">
                     <a-popover>
                         <info-circle-outlined class="cursor-pointer" :style="{ color: '#00000080' }">
                         </info-circle-outlined>

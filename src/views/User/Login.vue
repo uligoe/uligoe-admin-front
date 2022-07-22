@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref, reactive, toRefs } from "vue";
 import { message } from "ant-design-vue";
-import { useUser } from '../../store/useUser';
+import { useUser } from '@/store/useUser';
 import { useRouter, useRoute } from 'vue-router';
 
 const router = useRouter();
