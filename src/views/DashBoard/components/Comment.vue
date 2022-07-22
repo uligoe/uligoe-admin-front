@@ -11,15 +11,15 @@ watch(type, newVal => {
 }, { immediate: true })
 
 onMounted(() => {
-    type.value = 'article'
+    type.value = 'station'
 })
 
 </script>
 
 <template>
     <a-tabs v-model:activeKey="type" style="margin-top: -24px">
-        <a-tab-pane key="article" tab="文章评论"></a-tab-pane>
-        <a-tab-pane key="station" tab="站点评论" force-render></a-tab-pane>
+        <a-tab-pane key="station" tab="站点评论"></a-tab-pane>
+        <a-tab-pane key="article" tab="文章评论" force-render></a-tab-pane>
     </a-tabs>
     <a-list class="comment-list" :data-source="commentList" :loading="loading">
         <template #renderItem="{ item }">

@@ -88,6 +88,15 @@ const router = createRouter({
       },
     },
     {
+      path: '/links_manage',
+      name: 'linksManage',
+      component: () => import(`../views/Links/Links.vue`),
+      meta: {
+        title: '链接管理',
+        breadcrumb: ['用户', '链接管理']
+      },
+    },
+    {
       path: '/set',
       name: 'set',
       component: () => import(`../views/BlogSet/BlogSet.vue`),

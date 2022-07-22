@@ -77,6 +77,7 @@ watch(selectedKeys, (keys) => {
                         <span>用户</span>
                     </span>
                 </template>
+                <a-menu-item key="/links_manage">链接管理</a-menu-item>
                 <a-menu-item key="/personal">个人资料</a-menu-item>
             </a-sub-menu>
             <a-sub-menu key="sub3">

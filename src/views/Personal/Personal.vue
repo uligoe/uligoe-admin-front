@@ -1,12 +1,11 @@
 <script setup>
 import { UploadOutlined, UndoOutlined } from '@ant-design/icons-vue';
-import { useUser } from '../../store/useUser';
+import { useUser } from '@/store/useUser';
 import { storeToRefs } from 'pinia';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 
 const userStore = useUser();
 const { userInfo, tempUserInfo: form, oldPwd, newPwd, confirmPwd } = storeToRefs(userStore);
-
 
 onMounted(() => {
   userStore.clear();
@@ -70,12 +69,28 @@ async function validatePass(_rule, value) {
                 <a-input v-model:value="form.name"></a-input>
               </a-form-item>
 
+              <a-form-item label="生日" :rules="[{ required: true, message: '请输入生日' }]">
+                <a-date-picker v-model:value="form.birthday" valueFormat="YY-MM-DD" style="width:100%" />
+              </a-form-item>
+
+              <a-form-item label="地址" :rules="[{ required: true, message: '请输入地址' }]">
+                <a-input v-model:value="form.address"></a-input>
+              </a-form-item>
+
               <a-form-item label="github" :rules="[{ required: true, message: '请输入github地址' }]">
                 <a-input v-model:value="form.github"></a-input>
               </a-form-item>
 
+              <a-form-item label="wechat" :rules="[{ required: true, message: '请输入wechat账号' }]">
+                <a-input v-model:value="form.wechat"></a-input>
+              </a-form-item>
+
               <a-form-item label="email" :rules="[{ required: true, message: '请输入email地址' }]">
                 <a-input v-model:value="form.email"></a-input>
+              </a-form-item>
+
+              <a-form-item label="work" :rules="[{ required: true, message: '请输入工作职务' }]">
+                <a-input v-model:value="form.work"></a-input>
               </a-form-item>
 
               <a-form-item label="描述">
