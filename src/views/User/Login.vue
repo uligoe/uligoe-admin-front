@@ -38,6 +38,7 @@ async function login() {
         }
     } catch (e) {
         loading.value = false;
+        console.log(e);
         message.error(typeof e === 'string' ? e : e.message);
     }
 }

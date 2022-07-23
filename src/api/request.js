@@ -3,7 +3,7 @@ import nProgress from 'nprogress';
 import { useUser } from '../store/useUser';
 import router from '../router'
 
-const ConfigBaseURL = 'http://localhost:3001/api';
+const ConfigBaseURL = '/api';
 
 let userStore = null;
 

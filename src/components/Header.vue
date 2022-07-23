@@ -3,7 +3,7 @@ import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
     LinkOutlined,
-    BellOutlined,
+    SolutionOutlined,
 } from "@ant-design/icons-vue";
 import emitter from '@/utils/eventbus'
 import { useUser } from "../store/useUser";
@@ -36,17 +36,19 @@ const handleCollapse = () => {
         </div>
         <div class="options-wrapper">
             <a-popover>
-                <div class="option">
-                    <link-outlined :style="{ fontSize: '16px' }" />
+                <a href="http://www.lifeshot.top/" target="_blank">
+                    <div class="option">
+                    <link-outlined :style="{ fontSize: '16px', color: '#111' }" />
                 </div>
+                </a>
                 <template #content> 跳转到博客 </template>
             </a-popover>
 
             <a-popover>
                 <div class="option">
-                    <bell-outlined :style="{ fontSize: '16px' }" />
+                    <solution-outlined :style="{ fontSize: '16px' }" />
                 </div>
-                <template #content> 查看新信息 </template>
+                <template #content> 简历 </template>
             </a-popover>
 
             <a-dropdown>

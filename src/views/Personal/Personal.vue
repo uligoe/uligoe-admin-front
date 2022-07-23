@@ -70,7 +70,7 @@ async function validatePass(_rule, value) {
               </a-form-item>
 
               <a-form-item label="生日" :rules="[{ required: true, message: '请输入生日' }]">
-                <a-date-picker v-model:value="form.birthday" valueFormat="YY-MM-DD" style="width:100%" />
+                <a-date-picker v-model:value="form.birthday" valueFormat="YYYY-MM-DD" style="width:100%" />
               </a-form-item>
 
               <a-form-item label="地址" :rules="[{ required: true, message: '请输入地址' }]">
